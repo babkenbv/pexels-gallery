@@ -1,5 +1,5 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { Photo } from "../types";
 
 interface MasonryGridProps {
@@ -11,14 +11,13 @@ const optimizeImageUrl = (url: string, width: number, height: number) => {
   return url.replace("?auto=compress", `?auto=compress&w=${width}&h=${height}`);
 };
 
-const MasonryGrid: React.FC<MasonryGridProps> = ({ photos, onPhotoClick }) => {
+const MasonryGrid: FC<MasonryGridProps> = ({ photos, onPhotoClick }) => {
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [columns, setColumns] = useState(getInitialColumns());
 
-  const gridContainerCN =
-    "h-[calc(100vh-120px)] overflow-auto p-8 scrollbar-hide";
+  const gridContainerCN = "w-full p-4";
   const rowCN =
-    "absolute inset-x-0 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4";
+    "absolute inset-x-0 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8 mb-10";
   const imgWrapperCN =
     "group relative w-full aspect-[3/4] overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer bg-gray-50";
   const imgCN =
@@ -48,8 +47,8 @@ const MasonryGrid: React.FC<MasonryGridProps> = ({ photos, onPhotoClick }) => {
 
   const virtualizer = useVirtualizer({
     count: photoRows.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 550,
+    getScrollElement: () => document.documentElement,
+    estimateSize: () => 570,
     overscan: 5,
   });
 

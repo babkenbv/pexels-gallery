@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchPhotos } from "../api/api";
 import MasonryGrid from "../components/MasonryGrid";
 import SearchBar from "../components/SearchBar";
 import { Photo } from "../types";
 
-const Home: React.FC = () => {
+const Home: FC = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
-  const [query, setQuery] = useState("nature");
+  const [query, setQuery] = useState("Nature");
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
   const buttonCN =
-    "bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors";
+    "bg-gray-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors";
   const searchbarWrapperCN = "sticky top-0 z-10 bg-white p-4 shadow-md";
-  const buttonWrapperCN = "flex justify-center mt-8 mb-4";
+  const buttonWrapperCN = "flex justify-center my-4";
+  const containerCN = "min-h-screen overflow-auto";
+  const contentCN = "space-y-4 pb-4";
 
   useEffect(() => {
     const loadPhotos = async () => {
@@ -36,11 +38,11 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className={containerCN}>
       <div className={searchbarWrapperCN}>
         <SearchBar query={query} onSearch={handleSearch} />
       </div>
-      <div className="p-4">
+      <div className={contentCN}>
         <MasonryGrid photos={photos} onPhotoClick={handlePhotoClick} />
         <div className={buttonWrapperCN}>
           <button
