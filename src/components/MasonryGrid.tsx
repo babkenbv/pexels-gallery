@@ -15,11 +15,11 @@ const MasonryGrid: FC<MasonryGridProps> = ({ photos, onPhotoClick }) => {
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [columns, setColumns] = useState(getInitialColumns());
 
-  const gridContainerCN = "w-full p-4";
+  const gridContainerCN = "w-full p-4 sm:px-4";
   const rowCN =
-    "absolute inset-x-0 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8 mb-10";
+    "absolute inset-x-0 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4";
   const imgWrapperCN =
-    "group relative w-full aspect-[3/4] overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer bg-gray-50";
+    "group relative w-full aspect-[4/5] overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer bg-gray-50";
   const imgCN =
     "w-full h-full object-cover transition-transform duration-300 group-hover:scale-105";
 
@@ -48,7 +48,11 @@ const MasonryGrid: FC<MasonryGridProps> = ({ photos, onPhotoClick }) => {
   const virtualizer = useVirtualizer({
     count: photoRows.length,
     getScrollElement: () => document.documentElement,
-    estimateSize: () => 570,
+    estimateSize: () => {
+      const width = window.innerWidth;
+      const baseHeight = width < 640 ? width * 1.25 : (width / columns) * 1.25;
+      return baseHeight + 16;
+    },
     overscan: 5,
   });
 
